@@ -9,8 +9,8 @@ import java.util.*;
 
 public class Card extends ImageView {
 
-    private int suit;
-    private int rank;
+    private Suit suit;
+    private Rank rank;
     private boolean faceDown;
     private Image backFace;
     private Image frontFace;
@@ -23,8 +23,8 @@ public class Card extends ImageView {
     public static final int HEIGHT = 215;
 
     public Card(int suit, int rank, boolean faceDown) {
-        this.suit = suit;
-        this.rank = rank;
+        this.suit = Suit.values()[suit - 1];
+        this.rank = Rank.values()[rank - 1];
         this.faceDown = faceDown;
         this.dropShadow = new DropShadow(2, Color.gray(0, 0.75));
         backFace = cardBackImage;
@@ -34,11 +34,11 @@ public class Card extends ImageView {
     }
 
     public int getSuit() {
-        return suit;
+        return suit.value;
     }
 
     public int getRank() {
-        return rank;
+        return rank.value;
     }
 
     public boolean isFaceDown() {
@@ -46,7 +46,7 @@ public class Card extends ImageView {
     }
 
     public String getShortName() {
-        return "S" + suit + "R" + rank;
+        return "S" + suit.value + "R" + rank.value;
     }
 
     public DropShadow getDropShadow() {
@@ -73,7 +73,7 @@ public class Card extends ImageView {
 
     @Override
     public String toString() {
-        return "The " + "Rank" + rank + " of " + "Suit" + suit;
+        return "The " + "Rank" + rank.value + " of " + "Suit" + suit.value;
     }
 
     public static boolean isOppositeColor(Card card1, Card card2) {
@@ -87,9 +87,9 @@ public class Card extends ImageView {
 
     public static List<Card> createNewDeck() {
         List<Card> result = new ArrayList<>();
-        for (int suit = 1; suit < 5; suit++) {
-            for (int rank = 1; rank < 14; rank++) {
-                result.add(new Card(suit, rank, true));
+        for (Suit suit : Suit.values()) {
+            for (Rank rank : Rank.values()) {
+                result.add(new Card(suit.value, rank.value, true));
             }
         }
         return result;
