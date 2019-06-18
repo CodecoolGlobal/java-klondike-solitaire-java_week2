@@ -12,7 +12,6 @@ public class Card extends ImageView {
     private int suit;
     private int rank;
     private boolean faceDown;
-
     private Image backFace;
     private Image frontFace;
     private Pile containingPile;
@@ -98,29 +97,52 @@ public class Card extends ImageView {
 
     public static void loadCardImages() {
         cardBackImage = new Image("card_images/card_back.png");
-        String suitName = "";
-        for (int suit = 1; suit < 5; suit++) {
-            switch (suit) {
-                case 1:
-                    suitName = "hearts";
-                    break;
-                case 2:
-                    suitName = "diamonds";
-                    break;
-                case 3:
-                    suitName = "spades";
-                    break;
-                case 4:
-                    suitName = "clubs";
-                    break;
-            }
-            for (int rank = 1; rank < 14; rank++) {
-                String cardName = suitName + rank;
-                String cardId = "S" + suit + "R" + rank;
+        for (Suit suit : Suit.values()) {
+            for (Rank rank : Rank.values()) {
+                String cardName = suit.suitName + rank.value;
+                String cardId = "S" + suit.value + "R" + rank.value;
                 String imageFileName = "card_images/" + cardName + ".png";
                 cardFaceImages.put(cardId, new Image(imageFileName));
             }
         }
     }
 
+    private enum Suit {
+
+        HEARTS("hearts", 1),
+        SPADES("spades", 2),
+        DIAMONDS("diamonds", 3),
+        CLUBS("clubs", 4);
+
+        String suitName;
+        int value;
+
+        Suit(String suitName, int value) {
+            this.suitName = suitName;
+            this.value = value;
+        }
+    }
+
+    private enum Rank {
+
+        ACE(1),
+        TWO(2),
+        THREE(3),
+        FOUR(4),
+        FIVE(5),
+        SIX(6),
+        SEVEN(7),
+        EIGHT(8),
+        NINE(9),
+        TEN(10),
+        JACK(11),
+        QUEEN(12),
+        KING(13);
+
+        int value;
+
+        Rank(int value) {
+            this.value = value;
+        }
+    }
 }
