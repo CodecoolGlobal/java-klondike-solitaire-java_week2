@@ -112,7 +112,13 @@ public class Game extends Pane {
 
     public boolean isMoveValid(Card card, Pile destPile) {
         //TODO
+        if (destPile.getTopCard() != null){
+            if(!Card.isOppositeColor(card,destPile.getTopCard())){
+                return false;
+            }
+        }
         return true;
+
     }
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
         Pile result = null;
