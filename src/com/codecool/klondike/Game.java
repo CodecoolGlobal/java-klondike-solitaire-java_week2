@@ -29,6 +29,7 @@ public class Game extends Pane {
 
     private double dragStartX, dragStartY;
     private List<Card> draggedCards = FXCollections.observableArrayList();
+    private List<Card> draggedBeyondCards = new ArrayList<>();
 
     private static double STOCK_GAP = 1;
     private static double FOUNDATION_GAP = 0;
@@ -50,8 +51,19 @@ public class Game extends Pane {
     };
 
     private EventHandler<MouseEvent> onMousePressedHandler = e -> {
+        Card card = (Card) e.getSource();
         dragStartX = e.getSceneX();
         dragStartY = e.getSceneY();
+
+        for (int i = 0; i < tableauPiles.size(); i++) {
+            Pile pile = tableauPiles.get(i);
+            List<Card> pileCards = pile.getCards();
+            int sourceCardIndex = pileCards.indexOf(card);
+
+            if (sourceCardIndex != -1) {
+                draggedBeyondCards = pileCards.subList(sourceCardIndex,pileCards.size());
+            }
+        }
     };
 
     private EventHandler<MouseEvent> onMouseDraggedHandler = e -> {
@@ -59,19 +71,26 @@ public class Game extends Pane {
         Pile activePile = card.getContainingPile();
         if (activePile.getPileType() == Pile.PileType.STOCK)
             return;
+
         double offsetX = e.getSceneX() - dragStartX;
         double offsetY = e.getSceneY() - dragStartY;
 
         draggedCards.clear();
-        draggedCards.add(card);
+        draggedCards.addAll(draggedBeyondCards);
 
-        card.getDropShadow().setRadius(20);
-        card.getDropShadow().setOffsetX(10);
-        card.getDropShadow().setOffsetY(10);
+        for (Card cardIterator : draggedBeyondCards) {
 
-        card.toFront();
-        card.setTranslateX(offsetX);
-        card.setTranslateY(offsetY);
+            cardIterator.getDropShadow().setRadius(20);
+            cardIterator.getDropShadow().setOffsetX(10);
+            cardIterator.getDropShadow().setOffsetY(10);
+
+            cardIterator.toFront();
+            cardIterator.setTranslateX(offsetX);
+            cardIterator.setTranslateY(offsetY);
+        }
+
+        System.out.println(draggedBeyondCards);
+
     };
 
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {
