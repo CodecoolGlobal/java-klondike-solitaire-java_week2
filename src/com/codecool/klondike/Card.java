@@ -86,8 +86,8 @@ public class Card extends ImageView {
         }
         return false;
     }
-    public static boolean isNextCard(Card card1,Card card2){
-        if (card1.getRank()+1 == card2.getRank()){
+    public static boolean isNextCard(Card card1,Card card2,int order){
+        if (card1.getRank()+order == card2.getRank()){
             return true;
         }
         return false;
