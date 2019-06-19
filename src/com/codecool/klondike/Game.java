@@ -102,6 +102,7 @@ public class Game extends Pane {
         //TODO
         if (pile != null) {
             handleValidMove(card, pile);
+            flipTopCard();
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
 //            draggedCards = null;
@@ -109,7 +110,15 @@ public class Game extends Pane {
     };
 
     public boolean isGameWon() {
-        //TODO
+        //TODO DONE
+        int count = 0;
+        for (int i=0; i<4; i++){
+            Pile tableauPile = tableauPiles.get(i);
+            count += tableauPile.numOfCards();
+        }
+        if (count == 52){
+            return true;
+        }
         return false;
     }
 
@@ -138,9 +147,9 @@ public class Game extends Pane {
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        //TODO
+        //TODO Done
         if (destPile.getTopCard() != null){
-            if(!Card.isOppositeColor(card,destPile.getTopCard())){
+            if(!Card.isOppositeColor(card,destPile.getTopCard()) || !Card.isNextCard(card,destPile.getTopCard())){
                 return false;
             }
         }
@@ -241,6 +250,16 @@ public class Game extends Pane {
         setBackground(new Background(new BackgroundImage(tableBackground,
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+    }
+
+    public void flipTopCard(){
+        for (int i=0; i<7; i++) {
+            Pile tableauPile = tableauPiles.get(i);
+            Card topCard = tableauPile.getTopCard();
+            if (topCard.isFaceDown()) {
+                topCard.flip();
+            }
+        }
     }
 
 }

@@ -86,7 +86,12 @@ public class Card extends ImageView {
         }
         return false;
     }
-
+    public static boolean isNextCard(Card card1,Card card2){
+        if (card1.getRank()+1 == card2.getRank()){
+            return true;
+        }
+        return false;
+    }
     public static boolean isSameSuit(Card card1, Card card2) {
         return card1.getSuit() == card2.getSuit();
     }
@@ -124,7 +129,7 @@ public class Card extends ImageView {
         String color;
         int value;
 
-        Suit(String suitName, int value,String color) {
+        Suit(String suitName, int value, String color) {
             this.suitName = suitName;
             this.value = value;
             this.color = color;
