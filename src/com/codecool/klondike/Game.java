@@ -91,8 +91,10 @@ public class Game extends Pane {
 
     public boolean isGameWon() {
         //TODO DONE
-        if (foundationPiles.size() == 52) {
-            return true;
+        int count = 0;
+        for (int i=0; i<4; i++){
+            Pile tableauPile = tableauPiles.get(i);
+            count += tableauPile.numOfCards();
         }
         return false;
     }
