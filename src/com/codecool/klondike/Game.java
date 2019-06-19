@@ -83,6 +83,7 @@ public class Game extends Pane {
         //TODO
         if (pile != null) {
             handleValidMove(card, pile);
+            flipTopCard();
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
 //            draggedCards = null;
@@ -95,6 +96,9 @@ public class Game extends Pane {
         for (int i=0; i<4; i++){
             Pile tableauPile = tableauPiles.get(i);
             count += tableauPile.numOfCards();
+        }
+        if (count == 52){
+            return true;
         }
         return false;
     }
@@ -227,6 +231,16 @@ public class Game extends Pane {
         setBackground(new Background(new BackgroundImage(tableBackground,
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+    }
+
+    public void flipTopCard(){
+        for (int i=0; i<7; i++) {
+            Pile tableauPile = tableauPiles.get(i);
+            Card topCard = tableauPile.getTopCard();
+            if (topCard.isFaceDown()) {
+                topCard.flip();
+            }
+        }
     }
 
 }
