@@ -112,9 +112,9 @@ public class Game extends Pane {
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        //TODO
+        //TODO Done
         if (destPile.getTopCard() != null){
-            if(!Card.isOppositeColor(card,destPile.getTopCard())){
+            if(!Card.isOppositeColor(card,destPile.getTopCard()) || !Card.isNextCard(card,destPile.getTopCard())){
                 return false;
             }
         }
