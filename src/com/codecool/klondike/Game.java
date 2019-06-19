@@ -90,7 +90,10 @@ public class Game extends Pane {
     };
 
     public boolean isGameWon() {
-        //TODO
+        //TODO DONE
+        if (foundationPiles.size() == 52) {
+            return true;
+        }
         return false;
     }
 
