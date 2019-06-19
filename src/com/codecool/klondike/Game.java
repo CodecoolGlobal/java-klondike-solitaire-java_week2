@@ -35,6 +35,8 @@ public class Game extends Pane {
     private static double FOUNDATION_GAP = 0;
     private static double TABLEAU_GAP = 30;
 
+    private int negativeOrder = -1;
+    private int positiveOrder = 1;
 
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
@@ -80,14 +82,20 @@ public class Game extends Pane {
             return;
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
+        Pile foundationPile = getValidFoundationPile(card, foundationPiles);
         //TODO
         if (pile != null) {
             handleValidMove(card, pile);
-        } else {
+        }
+        else if(foundationPile != null){
+            handleValidMove(card, foundationPile);
+        }
+        else {
             draggedCards.forEach(MouseUtil::slideBack);
 //            draggedCards = null;
         }
     };
+
 
     public boolean isGameWon() {
         //TODO
@@ -121,7 +129,8 @@ public class Game extends Pane {
     public boolean isMoveValid(Card card, Pile destPile) {
         //TODO Done
         if (destPile.getTopCard() != null){
-            if(!Card.isOppositeColor(card,destPile.getTopCard()) || !Card.isNextCard(card,destPile.getTopCard())){
+            if(!Card.isOppositeColor(card,destPile.getTopCard()) ||
+                    !Card.isNextCard(card,destPile.getTopCard(), positiveOrder)){
                 return false;
             }
         }
@@ -137,6 +146,33 @@ public class Game extends Pane {
                 result = pile;
         }
         return result;
+    }
+
+    private Pile getValidFoundationPile(Card card, List<Pile> piles) {
+        Pile result = null;
+        for (Pile pile : piles) {
+            if (!pile.equals(card.getContainingPile()) &&
+                    isOverPile(card, pile) &&
+                    isFundationMoveValid(card, pile))
+                result = pile;
+        }
+        return result;
+    }
+
+    private boolean isFundationMoveValid(Card card,Pile destPile){
+        System.out.println(card);
+        System.out.println(destPile.getTopCard());
+
+        if (destPile.getTopCard() != null){
+            if (Card.isNextCard(card,destPile.getTopCard(),negativeOrder) &&
+                    Card.isSameSuit(card,destPile.getTopCard())) {
+                return true;
+            }
+        }
+        else if(card.getRank() == 1){
+            return true;
+        }
+        return false;
     }
 
     private boolean isOverPile(Card card, Pile pile) {
