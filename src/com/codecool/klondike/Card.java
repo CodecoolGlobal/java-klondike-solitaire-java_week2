@@ -124,7 +124,7 @@ public class Card extends ImageView {
         String color;
         int value;
 
-        Suit(String suitName, int value,String color) {
+        Suit(String suitName, int value, String color) {
             this.suitName = suitName;
             this.value = value;
             this.color = color;
