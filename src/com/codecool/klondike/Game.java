@@ -83,7 +83,7 @@ public class Game extends Pane {
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
         Pile foundationPile = getValidFoundationPile(card, foundationPiles);
-        //TODO
+        //TODO Done
         if (pile != null) {
             handleValidMove(card, pile);
         }
@@ -160,9 +160,6 @@ public class Game extends Pane {
     }
 
     private boolean isFundationMoveValid(Card card,Pile destPile){
-        System.out.println(card);
-        System.out.println(destPile.getTopCard());
-
         if (destPile.getTopCard() != null){
             if (Card.isNextCard(card,destPile.getTopCard(),negativeOrder) &&
                     Card.isSameSuit(card,destPile.getTopCard())) {
