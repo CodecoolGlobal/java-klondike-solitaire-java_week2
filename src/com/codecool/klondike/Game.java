@@ -72,26 +72,27 @@ public class Game extends Pane {
     private EventHandler<MouseEvent> onMouseDraggedHandler = e -> {
         Card card = (Card) e.getSource();
         Pile activePile = card.getContainingPile();
-        if (activePile.getPileType() == Pile.PileType.STOCK)
-            return;
+        if (!card.isFaceDown()) {
+            if (activePile.getPileType() == Pile.PileType.STOCK)
+                return;
 
-        double offsetX = e.getSceneX() - dragStartX;
-        double offsetY = e.getSceneY() - dragStartY;
+            double offsetX = e.getSceneX() - dragStartX;
+            double offsetY = e.getSceneY() - dragStartY;
 
-        draggedCards.clear();
-        draggedCards.addAll(draggedBeyondCards);
+            draggedCards.clear();
+            draggedCards.addAll(draggedBeyondCards);
 
-        for (Card cardIterator : draggedBeyondCards) {
+            for (Card cardIterator : draggedBeyondCards) {
 
-            cardIterator.getDropShadow().setRadius(20);
-            cardIterator.getDropShadow().setOffsetX(10);
-            cardIterator.getDropShadow().setOffsetY(10);
+                cardIterator.getDropShadow().setRadius(20);
+                cardIterator.getDropShadow().setOffsetX(10);
+                cardIterator.getDropShadow().setOffsetY(10);
 
-            cardIterator.toFront();
-            cardIterator.setTranslateX(offsetX);
-            cardIterator.setTranslateY(offsetY);
+                cardIterator.toFront();
+                cardIterator.setTranslateX(offsetX);
+                cardIterator.setTranslateY(offsetY);
+            }
         }
-
         System.out.println(draggedBeyondCards);
 
     };
@@ -123,7 +124,7 @@ public class Game extends Pane {
             Pile tableauPile = tableauPiles.get(i);
             count += tableauPile.numOfCards();
         }
-        if (count == 52){
+        if (count == 2){
             return true;
         }
         return false;
