@@ -123,6 +123,9 @@ public class Game extends Pane {
     };
 
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {
+        if (isGameWon()) {
+            System.out.println("WIN");
+        }
         if (draggedCards.isEmpty())
             return;
         Card card = (Card) e.getSource();
