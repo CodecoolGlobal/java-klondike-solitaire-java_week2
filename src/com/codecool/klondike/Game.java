@@ -83,10 +83,9 @@ public class Game extends Pane {
         //TODO
         if (pile != null) {
             handleValidMove(card, pile);
-            flipTopCard();
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
-//            draggedCards = null;
+            draggedCards.clear();
         }
     };
 
@@ -166,7 +165,7 @@ public class Game extends Pane {
             msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
         }
         System.out.println(msg);
-        MouseUtil.slideToDest(draggedCards, destPile);
+        MouseUtil.slideToDest(draggedCards, destPile, this);
         draggedCards.clear();
     }
 
@@ -235,8 +234,7 @@ public class Game extends Pane {
 
     public void flipTopCard(){
         for (int i=0; i<7; i++) {
-            Pile tableauPile = tableauPiles.get(i);
-            Card topCard = tableauPile.getTopCard();
+            Card topCard = tableauPiles.get(i).getTopCard();
             if (topCard.isFaceDown()) {
                 topCard.flip();
             }
