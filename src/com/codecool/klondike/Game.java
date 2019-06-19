@@ -98,7 +98,12 @@ public class Game extends Pane {
 
 
     public boolean isGameWon() {
-        //TODO
+        //TODO DONE
+        int count = 0;
+        for (int i=0; i<4; i++){
+            Pile tableauPile = tableauPiles.get(i);
+            count += tableauPile.numOfCards();
+        }
         return false;
     }
 
