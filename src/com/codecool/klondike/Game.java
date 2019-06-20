@@ -137,7 +137,7 @@ public class Game extends Pane {
         if (count == 1) {
             System.out.println("win");
 
-            Congratulation.display("Congratulation!!!", "WON");
+            Congratulation.display("Congratulation!!!", "WON", this);
 
         }
     }
@@ -245,6 +245,7 @@ public class Game extends Pane {
     private EventHandler<ActionEvent> onButtonPressedHandler = e -> {
         Klondike newGame = new Klondike();
         newGame.start(Klondike.stage);
+        Congratulation.close();
     };
 
     private void initPiles() {

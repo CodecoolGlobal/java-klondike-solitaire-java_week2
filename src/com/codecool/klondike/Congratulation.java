@@ -15,9 +15,9 @@ import java.awt.*;
 
 public class Congratulation {
 
+    private static Stage window = new Stage();
+    public static void display(String title, String message, Game game) {
 
-    public static void display(String title, String message) {
-        Stage window = new Stage();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         double width = screenSize.getWidth();
@@ -39,11 +39,10 @@ public class Congratulation {
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                closeButton.setText("valami");
                 Platform.exit();
             }
         });
-
+        game.addButtonRestartHandler(restartButton);
 
         VBox layout = new VBox(30);
         closeButton.setAlignment(Pos.CENTER);
@@ -62,7 +61,9 @@ public class Congratulation {
         window.setScene(scene);
         window.show();
 
+    }
 
-
+    public static void close() {
+        window.close();
     }
 }
