@@ -76,10 +76,10 @@ public class Game extends Pane {
         Card card = (Card) e.getSource();
         Pile activePile = card.getContainingPile();
         if (!card.isFaceDown()) {
-            if (activePile.getPileType() == Pile.PileType.STOCK ) {
+            if (activePile.getPileType() == Pile.PileType.STOCK) {
                 return;
             }
-            if (activePile.getPileType() == Pile.PileType.DISCARD ) {
+            if (activePile.getPileType() == Pile.PileType.DISCARD) {
                 if (card != discardPile.getTopCard()) {
                     return;
                 }
@@ -88,36 +88,23 @@ public class Game extends Pane {
 
             double offsetX = e.getSceneX() - dragStartX;
             double offsetY = e.getSceneY() - dragStartY;
-
+            draggedCards.clear();
 
             if (activePile.getPileType() == Pile.PileType.TABLEAU) {
-
-                draggedCards.clear();
                 draggedCards.addAll(draggedBeyondCards);
-
-
-                for (Card cardIterator : draggedBeyondCards) {
-
-                    cardIterator.getDropShadow().setRadius(20);
-                    cardIterator.getDropShadow().setOffsetX(10);
-                    cardIterator.getDropShadow().setOffsetY(10);
-
-                    cardIterator.toFront();
-                    cardIterator.setTranslateX(offsetX);
-                    cardIterator.setTranslateY(offsetY);
-                }
             } else {
-
-                draggedCards.clear();
                 draggedCards.add(card);
+            }
 
-                card.getDropShadow().setRadius(20);
-                card.getDropShadow().setOffsetX(10);
-                card.getDropShadow().setOffsetY(10);
+            for (Card cardIterator : draggedCards) {
 
-                card.toFront();
-                card.setTranslateX(offsetX);
-                card.setTranslateY(offsetY);
+                cardIterator.getDropShadow().setRadius(20);
+                cardIterator.getDropShadow().setOffsetX(10);
+                cardIterator.getDropShadow().setOffsetY(10);
+
+                cardIterator.toFront();
+                cardIterator.setTranslateX(offsetX);
+                cardIterator.setTranslateY(offsetY);
             }
         }
     };
