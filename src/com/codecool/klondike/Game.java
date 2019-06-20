@@ -14,6 +14,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -110,9 +111,6 @@ public class Game extends Pane {
     };
 
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {
-        if (isGameWon()) {
-            System.out.println("WIN");
-        }
         if (draggedCards.isEmpty())
             return;
         Card card = (Card) e.getSource();
@@ -130,17 +128,16 @@ public class Game extends Pane {
     };
 
 
-    public boolean isGameWon() {
+    public void isGameWon() {
         //TODO DONE
         int count = 0;
         for (int i = 0; i < 4; i++) {
-            Pile tableauPile = tableauPiles.get(i);
-            count += tableauPile.numOfCards();
+            Pile foundationPile = foundationPiles.get(i);
+            count += foundationPile.numOfCards();
         }
         if (count == 52) {
-            return true;
+            System.out.println("win");
         }
-        return false;
     }
 
     public Game() {
@@ -301,11 +298,13 @@ public class Game extends Pane {
 
     public void flipTopCard() {
         for (int i = 0; i < 7; i++) {
-            Card topCard = tableauPiles.get(i).getTopCard();
-            if (topCard.isFaceDown()) {
-                topCard.flip();
+            Pile tableauPile = tableauPiles.get(i);
+            Card topCard = tableauPile.getTopCard();
+            if (tableauPile.numOfCards() != 0) {
+                if (topCard.isFaceDown()) {
+                    topCard.flip();
+                }
             }
         }
     }
-
 }

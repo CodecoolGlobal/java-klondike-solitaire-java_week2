@@ -59,6 +59,7 @@ public class MouseUtil {
                         currentCard.getDropShadow().setOffsetX(0);
                         currentCard.getDropShadow().setOffsetY(0);
                         game.flipTopCard();
+                        game.isGameWon();
                     });
         }
     }
