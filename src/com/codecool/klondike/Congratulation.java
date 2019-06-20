@@ -17,7 +17,7 @@ public class Congratulation {
 
     private static Stage window = new Stage();
     public static void display(String title, String message, Game game) {
-
+        window = new Stage();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         double width = screenSize.getWidth();

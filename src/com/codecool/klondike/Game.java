@@ -135,10 +135,7 @@ public class Game extends Pane {
             count += foundationPile.numOfCards();
         }
         if (count == 1) {
-            System.out.println("win");
-
             Congratulation.display("Congratulation!!!", "WON", this);
-
         }
     }
 
