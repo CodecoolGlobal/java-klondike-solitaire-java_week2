@@ -202,7 +202,8 @@ public class Game extends Pane {
     private boolean isFundationMoveValid(Card card, Pile destPile) {
         if (destPile.getTopCard() != null) {
             if (Card.isNextCard(card, destPile.getTopCard(), negativeOrder) &&
-                    Card.isSameSuit(card, destPile.getTopCard())) {
+                    Card.isSameSuit(card, destPile.getTopCard()) &&
+                    draggedCards.size() == 1) {
                 return true;
             }
         } else if (card.getRank() == 1) {
