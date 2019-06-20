@@ -1,11 +1,10 @@
 package com.codecool.klondike;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -15,7 +14,6 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -240,8 +238,22 @@ public class Game extends Pane {
         draggedCards.clear();
     }
 
+    public void addButtonRestartHandler(Button button) {
+        button.setOnAction(onButtonPressedHandler);
+    }
+
+    private EventHandler<ActionEvent> onButtonPressedHandler = e -> {
+        Klondike newGame = new Klondike();
+        newGame.start(Klondike.stage);
+    };
 
     private void initPiles() {
+
+        Button btn = new Button();
+        btn.setText("Restart");
+        getChildren().add(btn);
+        addButtonRestartHandler(btn);
+
         stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP);
         stockPile.setBlurredBackground();
         stockPile.setLayoutX(95);
