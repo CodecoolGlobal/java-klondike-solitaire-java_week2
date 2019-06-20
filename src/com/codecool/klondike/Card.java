@@ -36,6 +36,7 @@ public class Card extends ImageView {
     public int getSuit() {
         return suit.value;
     }
+
     public String getColor() {
         return suit.color;
     }
@@ -81,17 +82,19 @@ public class Card extends ImageView {
 
     public static boolean isOppositeColor(Card card1, Card card2) {
         //TODO DONE
-        if (!card1.getColor().equals(card2.getColor())){
+        if (!card1.getColor().equals(card2.getColor())) {
             return true;
         }
         return false;
     }
-    public static boolean isNextCard(Card card1,Card card2,int order){
-        if (card1.getRank()+order == card2.getRank()){
+
+    public static boolean isNextCard(Card card1, Card card2, int order) {
+        if (card1.getRank() + order == card2.getRank()) {
             return true;
         }
         return false;
     }
+
     public static boolean isSameSuit(Card card1, Card card2) {
         return card1.getSuit() == card2.getSuit();
     }
@@ -121,10 +124,10 @@ public class Card extends ImageView {
 
     private enum Suit {
 
-        HEARTS("hearts", 1,"red"),
-        SPADES("spades", 2,"black"),
-        DIAMONDS("diamonds", 3,"red"),
-        CLUBS("clubs", 4,"black");
+        HEARTS("hearts", 1, "red"),
+        SPADES("spades", 2, "black"),
+        DIAMONDS("diamonds", 3, "red"),
+        CLUBS("clubs", 4, "black");
 
         String suitName;
         String color;
