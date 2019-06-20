@@ -13,12 +13,16 @@ public class Klondike extends Application {
     private static final double WINDOW_WIDTH = 1400;
     private static final double WINDOW_HEIGHT = 900;
 
+    static Stage stage;
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
+        stage= primaryStage;
+
         Card.loadCardImages();
         Game game = new Game();
         game.setTableBackground(new Image("/table/green.png"));

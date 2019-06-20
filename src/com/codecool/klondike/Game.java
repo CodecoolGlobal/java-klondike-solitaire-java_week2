@@ -1,10 +1,9 @@
 package com.codecool.klondike;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -77,10 +76,10 @@ public class Game extends Pane {
         Card card = (Card) e.getSource();
         Pile activePile = card.getContainingPile();
         if (!card.isFaceDown()) {
-            if (activePile.getPileType() == Pile.PileType.STOCK ) {
+            if (activePile.getPileType() == Pile.PileType.STOCK) {
                 return;
             }
-            if (activePile.getPileType() == Pile.PileType.DISCARD ) {
+            if (activePile.getPileType() == Pile.PileType.DISCARD) {
                 if (card != discardPile.getTopCard()) {
                     return;
                 }
@@ -89,36 +88,23 @@ public class Game extends Pane {
 
             double offsetX = e.getSceneX() - dragStartX;
             double offsetY = e.getSceneY() - dragStartY;
-
+            draggedCards.clear();
 
             if (activePile.getPileType() == Pile.PileType.TABLEAU) {
-
-                draggedCards.clear();
                 draggedCards.addAll(draggedBeyondCards);
-
-
-                for (Card cardIterator : draggedBeyondCards) {
-
-                    cardIterator.getDropShadow().setRadius(20);
-                    cardIterator.getDropShadow().setOffsetX(10);
-                    cardIterator.getDropShadow().setOffsetY(10);
-
-                    cardIterator.toFront();
-                    cardIterator.setTranslateX(offsetX);
-                    cardIterator.setTranslateY(offsetY);
-                }
             } else {
-
-                draggedCards.clear();
                 draggedCards.add(card);
+            }
 
-                card.getDropShadow().setRadius(20);
-                card.getDropShadow().setOffsetX(10);
-                card.getDropShadow().setOffsetY(10);
+            for (Card cardIterator : draggedCards) {
 
-                card.toFront();
-                card.setTranslateX(offsetX);
-                card.setTranslateY(offsetY);
+                cardIterator.getDropShadow().setRadius(20);
+                cardIterator.getDropShadow().setOffsetX(10);
+                cardIterator.getDropShadow().setOffsetY(10);
+
+                cardIterator.toFront();
+                cardIterator.setTranslateX(offsetX);
+                cardIterator.setTranslateY(offsetY);
             }
         }
     };
@@ -149,12 +135,10 @@ public class Game extends Pane {
             count += foundationPile.numOfCards();
         }
         if (count == 1) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText("Look, an Information Dialog");
-            alert.setContentText("I have a great message for you!");
+            System.out.println("win");
 
-            alert.showAndWait();
+            Congratulation.display("Congratulation!!!", "WON");
+
         }
     }
 
@@ -184,6 +168,9 @@ public class Game extends Pane {
 
     public boolean isMoveValid(Card card, Pile destPile) {
         //TODO Done
+        if (card.getRank() != 13 && destPile.numOfCards() == 0) {
+            return false;
+        }
         if (destPile.getTopCard() != null) {
             if (!Card.isOppositeColor(card, destPile.getTopCard()) ||
                     !Card.isNextCard(card, destPile.getTopCard(), positiveOrder)) {
@@ -191,7 +178,6 @@ public class Game extends Pane {
             }
         }
         return true;
-
     }
 
 
@@ -211,16 +197,17 @@ public class Game extends Pane {
         for (Pile pile : piles) {
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&
-                    isFundationMoveValid(card, pile))
+                    isFoundationMoveValid(card, pile))
                 result = pile;
         }
         return result;
     }
 
-    private boolean isFundationMoveValid(Card card, Pile destPile) {
+    private boolean isFoundationMoveValid(Card card, Pile destPile) {
         if (destPile.getTopCard() != null) {
             if (Card.isNextCard(card, destPile.getTopCard(), negativeOrder) &&
-                    Card.isSameSuit(card, destPile.getTopCard())) {
+                    Card.isSameSuit(card, destPile.getTopCard()) &&
+                    draggedCards.size() == 1) {
                 return true;
             }
         } else if (card.getRank() == 1) {
@@ -251,8 +238,22 @@ public class Game extends Pane {
         draggedCards.clear();
     }
 
+    public void addButtonRestartHandler(Button button) {
+        button.setOnAction(onButtonPressedHandler);
+    }
+
+    private EventHandler<ActionEvent> onButtonPressedHandler = e -> {
+        Klondike newGame = new Klondike();
+        newGame.start(Klondike.stage);
+    };
 
     private void initPiles() {
+
+        Button btn = new Button();
+        btn.setText("Restart");
+        getChildren().add(btn);
+        addButtonRestartHandler(btn);
+
         stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP);
         stockPile.setBlurredBackground();
         stockPile.setLayoutX(95);
@@ -287,7 +288,7 @@ public class Game extends Pane {
     public void dealCards() {
         Collections.shuffle(deck);
         Iterator<Card> deckIterator = deck.iterator();
-        //TODO
+        //TODO DONE
 
         for (int i = 0; i < 7; i++) {
             Pile tableauPile = tableauPiles.get(i);
@@ -316,11 +317,13 @@ public class Game extends Pane {
 
     public void flipTopCard() {
         for (int i = 0; i < 7; i++) {
-            Card topCard = tableauPiles.get(i).getTopCard();
-            if (topCard.isFaceDown()) {
-                topCard.flip();
+            Pile tableauPile = tableauPiles.get(i);
+            Card topCard = tableauPile.getTopCard();
+            if (tableauPile.numOfCards() != 0) {
+                if (topCard.isFaceDown()) {
+                    topCard.flip();
+                }
             }
         }
     }
-
 }
