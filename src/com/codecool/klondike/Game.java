@@ -250,20 +250,25 @@ public class Game extends Pane {
         Klondike newGame = new Klondike();
         newGame.start(Klondike.stage);
     };
-    private void addBackrounds(ArrayList backgrounds){
+
+    private void addBackrounds(ArrayList backgrounds) {
         backgrounds.add("/table/green.png");
         backgrounds.add("card_images/card_back.png");
         backgrounds.add("card_images/clubs1.png");
         backgrounds.add("card_images/diamonds1.png");
         backgrounds.add("card_images/hearts4.png");
     }
-    public void addSwitchButtonHandler(Button button){button.setOnAction(onSwitchButtonPressedHandler);}
 
-    private EventHandler<ActionEvent> onSwitchButtonPressedHandler = e ->{
-        if(switchBackground + 1 == backgrounds.size()){
+    public void addSwitchButtonHandler(Button button) {
+        button.setOnAction(onSwitchButtonPressedHandler);
+    }
+
+    private EventHandler<ActionEvent> onSwitchButtonPressedHandler = e -> {
+        switchBackground++;
+        if (switchBackground + 1 == backgrounds.size()) {
             switchBackground = 0;
         }
-        switchBackground++;
+
         setTableBackground(new Image(backgrounds.get(switchBackground)));
 
     };
@@ -274,12 +279,17 @@ public class Game extends Pane {
         Button btn = new Button();
         btn.setText("Restart");
         getChildren().add(btn);
+        btn.setMinWidth(80);
+        buttonStyle(btn);
         addButtonRestartHandler(btn);
 
         Button switchbtn = new Button();
-        btn.setText("Switch");
+        switchbtn.setText("Switch");
+        switchbtn.setLayoutY(30);
+        switchbtn.setMinWidth(80);
         getChildren().add(switchbtn);
-        addSwitchButtonHandler(btn);
+        buttonStyle(switchbtn);
+        addSwitchButtonHandler(switchbtn);
 
         stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP);
         stockPile.setBlurredBackground();
@@ -310,6 +320,16 @@ public class Game extends Pane {
             tableauPiles.add(tableauPile);
             getChildren().add(tableauPile);
         }
+    }
+    public void buttonStyle(Button btn){
+        btn.setStyle("-fx-background-color: \n" +
+                "        #c3c4c4,\n" +
+                "        linear-gradient(#d6d6d6 50%, white 100%),\n" +
+                "        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);\n" +
+                "    -fx-background-radius: 30;\n" +
+                "    -fx-background-insets: 0,1,1;\n" +
+                "    -fx-text-fill: black;\n" +
+                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );");
     }
 
     public void dealCards() {
