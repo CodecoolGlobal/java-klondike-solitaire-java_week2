@@ -6,8 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class Klondike extends Application {
 
     private static final double WINDOW_WIDTH = 1400;
@@ -23,7 +21,7 @@ public class Klondike extends Application {
     public void start(Stage primaryStage) {
         stage= primaryStage;
 
-        Card.loadCardImages();
+        Card.loadCardImages("card_images/card_back.png");
         Game game = new Game();
         game.setTableBackground(new Image("/table/green.png"));
 

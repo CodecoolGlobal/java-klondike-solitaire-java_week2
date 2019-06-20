@@ -27,6 +27,8 @@ public class Game extends Pane {
     private Pile discardPile;
     private List<Pile> foundationPiles = FXCollections.observableArrayList();
     private List<Pile> tableauPiles = FXCollections.observableArrayList();
+    private ArrayList<String> backgrounds = new ArrayList<>();
+    private ArrayList<String> cardback = new ArrayList<>();
 
     private double dragStartX, dragStartY;
     private List<Card> draggedCards = FXCollections.observableArrayList();
@@ -38,6 +40,8 @@ public class Game extends Pane {
 
     private int negativeOrder = -1;
     private int positiveOrder = 1;
+    private int switchBackground = 0;
+
 
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
@@ -246,13 +250,36 @@ public class Game extends Pane {
         Klondike newGame = new Klondike();
         newGame.start(Klondike.stage);
     };
+    private void addBackrounds(ArrayList backgrounds){
+        backgrounds.add("/table/green.png");
+        backgrounds.add("card_images/card_back.png");
+        backgrounds.add("card_images/clubs1.png");
+        backgrounds.add("card_images/diamonds1.png");
+        backgrounds.add("card_images/hearts4.png");
+    }
+    public void addSwitchButtonHandler(Button button){button.setOnAction(onSwitchButtonPressedHandler);}
+
+    private EventHandler<ActionEvent> onSwitchButtonPressedHandler = e ->{
+        if(switchBackground + 1 == backgrounds.size()){
+            switchBackground = 0;
+        }
+        switchBackground++;
+        setTableBackground(new Image(backgrounds.get(switchBackground)));
+
+    };
 
     private void initPiles() {
+        addBackrounds(backgrounds);
 
         Button btn = new Button();
         btn.setText("Restart");
         getChildren().add(btn);
         addButtonRestartHandler(btn);
+
+        Button switchbtn = new Button();
+        btn.setText("Switch");
+        getChildren().add(switchbtn);
+        addSwitchButtonHandler(btn);
 
         stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP);
         stockPile.setBlurredBackground();
