@@ -16,6 +16,7 @@ import java.awt.*;
 public class Congratulation {
 
     private static Stage window = new Stage();
+
     public static void display(String title, String message, Game game) {
         window = new Stage();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -27,8 +28,8 @@ public class Congratulation {
         window.setTitle(title);
         window.setMinWidth(500);
         window.centerOnScreen();
-        window.setX(width/2 - 250);
-        window.setY(height/2 - 250);
+        window.setX(width / 2 - 250);
+        window.setY(height / 2 - 250);
 
 
         Label label = new Label();

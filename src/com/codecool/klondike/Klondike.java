@@ -18,7 +18,7 @@ public class Klondike extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        stage= primaryStage;
+        stage = primaryStage;
 
         Card.loadCardImages();
         Game game = new Game();
