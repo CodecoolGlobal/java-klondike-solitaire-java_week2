@@ -2,8 +2,11 @@ package com.codecool.klondike;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class Klondike extends Application {
 
@@ -23,6 +26,7 @@ public class Klondike extends Application {
         primaryStage.setTitle("Klondike Solitaire");
         primaryStage.setScene(new Scene(game, WINDOW_WIDTH, WINDOW_HEIGHT));
         primaryStage.show();
+
     }
 
 }

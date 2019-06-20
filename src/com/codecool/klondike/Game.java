@@ -5,6 +5,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -140,17 +141,21 @@ public class Game extends Pane {
     };
 
 
-    public boolean isGameWon() {
+    public void isGameWon() {
         //TODO DONE
         int count = 0;
         for (int i = 0; i < 4; i++) {
-            Pile tableauPile = tableauPiles.get(i);
-            count += tableauPile.numOfCards();
+            Pile foundationPile = foundationPiles.get(i);
+            count += foundationPile.numOfCards();
         }
-        if (count == 52) {
-            return true;
+        if (count == 1) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Look, an Information Dialog");
+            alert.setContentText("I have a great message for you!");
+
+            alert.showAndWait();
         }
-        return false;
     }
 
     public Game() {
