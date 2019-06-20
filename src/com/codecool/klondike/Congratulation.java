@@ -36,6 +36,8 @@ public class Congratulation {
         label.setText(message);
         Button closeButton = new Button("Exit");
         Button restartButton = new Button("Restart");
+        game.buttonStyle(closeButton);
+        game.buttonStyle(restartButton);
 
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override

@@ -27,6 +27,8 @@ public class Game extends Pane {
     private Pile discardPile;
     private List<Pile> foundationPiles = FXCollections.observableArrayList();
     private List<Pile> tableauPiles = FXCollections.observableArrayList();
+    private ArrayList<String> backgrounds = new ArrayList<>();
+    private ArrayList<String> cardback = new ArrayList<>();
 
     private double dragStartX, dragStartY;
     private List<Card> draggedCards = FXCollections.observableArrayList();
@@ -38,6 +40,8 @@ public class Game extends Pane {
 
     private int negativeOrder = -1;
     private int positiveOrder = 1;
+    private int switchBackground = 0;
+
 
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
@@ -245,12 +249,45 @@ public class Game extends Pane {
         Congratulation.close();
     };
 
+    private void addBackrounds(ArrayList backgrounds) {
+        backgrounds.add("/table/green.png");
+        backgrounds.add("card_images/card_back.png");
+        backgrounds.add("card_images/clubs1.png");
+        backgrounds.add("card_images/diamonds1.png");
+        backgrounds.add("card_images/hearts4.png");
+    }
+
+    public void addSwitchButtonHandler(Button button) {
+        button.setOnAction(onSwitchButtonPressedHandler);
+    }
+
+    private EventHandler<ActionEvent> onSwitchButtonPressedHandler = e -> {
+        switchBackground++;
+        if (switchBackground + 1 == backgrounds.size()) {
+            switchBackground = 0;
+        }
+
+        setTableBackground(new Image(backgrounds.get(switchBackground)));
+
+    };
+
     private void initPiles() {
+        addBackrounds(backgrounds);
 
         Button btn = new Button();
         btn.setText("Restart");
         getChildren().add(btn);
+        btn.setMinWidth(80);
+        buttonStyle(btn);
         addButtonRestartHandler(btn);
+
+        Button switchbtn = new Button();
+        switchbtn.setText("Switch");
+        switchbtn.setLayoutY(30);
+        switchbtn.setMinWidth(80);
+        getChildren().add(switchbtn);
+        buttonStyle(switchbtn);
+        addSwitchButtonHandler(switchbtn);
 
         stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP);
         stockPile.setBlurredBackground();
@@ -281,6 +318,16 @@ public class Game extends Pane {
             tableauPiles.add(tableauPile);
             getChildren().add(tableauPile);
         }
+    }
+    public void buttonStyle(Button btn){
+        btn.setStyle("-fx-background-color: \n" +
+                "        #c3c4c4,\n" +
+                "        linear-gradient(#d6d6d6 50%, white 100%),\n" +
+                "        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);\n" +
+                "    -fx-background-radius: 30;\n" +
+                "    -fx-background-insets: 0,1,1;\n" +
+                "    -fx-text-fill: black;\n" +
+                "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );");
     }
 
     public void dealCards() {
