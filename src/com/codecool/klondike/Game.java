@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -135,8 +136,11 @@ public class Game extends Pane {
             Pile foundationPile = foundationPiles.get(i);
             count += foundationPile.numOfCards();
         }
-        if (count == 52) {
+        if (count == 1) {
             System.out.println("win");
+
+            Congratulation.display("Congratulation!!!", "WON");
+
         }
     }
 
@@ -270,7 +274,7 @@ public class Game extends Pane {
     public void dealCards() {
         Collections.shuffle(deck);
         Iterator<Card> deckIterator = deck.iterator();
-        //TODO
+        //TODO DONE
 
         for (int i = 0; i < 7; i++) {
             Pile tableauPile = tableauPiles.get(i);
