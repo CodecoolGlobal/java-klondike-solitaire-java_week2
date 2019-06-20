@@ -45,7 +45,20 @@ public class Game extends Pane {
 
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
-        if (card == stockPile.getTopCard()) {
+        if (e.getClickCount() == 2 && !card.isFaceDown() &&
+                card.getContainingPile().getPileType() != Pile.PileType.STOCK &&
+                    card.equals(card.getContainingPile().getTopCard())) {
+            for (Pile foundationPile : foundationPiles) {
+                Card topCard = foundationPile.getTopCard();
+                if ((topCard != null && Card.isNextCard(topCard, card, 1) && card.getSuit() == topCard.getSuit()) ||
+                        (card.getRank() == 1 && topCard == null)) {
+                    card.moveToPile(foundationPile);
+                }
+            }
+            flipTopCard();
+            isGameWon();
+        }
+        else if (card == stockPile.getTopCard()) {
             if (card.getContainingPile().getPileType() == Pile.PileType.STOCK) {
                 card.moveToPile(discardPile);
                 card.flip();
@@ -138,8 +151,9 @@ public class Game extends Pane {
             Pile foundationPile = foundationPiles.get(i);
             count += foundationPile.numOfCards();
         }
-        if (count == 1) {
+        if (count == 52) {
             Congratulation.display("Congratulation!!!", "WON", this);
+
         }
     }
 
@@ -245,8 +259,8 @@ public class Game extends Pane {
 
     private EventHandler<ActionEvent> onButtonPressedHandler = e -> {
         Klondike newGame = new Klondike();
-        newGame.start(Klondike.stage);
         Congratulation.close();
+        newGame.start(Klondike.stage);
     };
 
     private void addBackrounds(ArrayList backgrounds) {
