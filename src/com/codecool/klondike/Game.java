@@ -166,9 +166,12 @@ public class Game extends Pane {
 
     public boolean isMoveValid(Card card, Pile destPile) {
         //TODO Done
+        if (card.getRank() != 13 && destPile.numOfCards() == 0) {
+                return false;
+        }
         if (destPile.getTopCard() != null) {
             if (!Card.isOppositeColor(card, destPile.getTopCard()) ||
-                    !Card.isNextCard(card, destPile.getTopCard(), positiveOrder)) {
+                    !Card.isNextCard(card, destPile.getTopCard(), positiveOrder)){
                 return false;
             }
         }
@@ -193,13 +196,13 @@ public class Game extends Pane {
         for (Pile pile : piles) {
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&
-                    isFundationMoveValid(card, pile))
+                    isFoundationMoveValid(card, pile))
                 result = pile;
         }
         return result;
     }
 
-    private boolean isFundationMoveValid(Card card, Pile destPile) {
+    private boolean isFoundationMoveValid(Card card, Pile destPile) {
         if (destPile.getTopCard() != null) {
             if (Card.isNextCard(card, destPile.getTopCard(), negativeOrder) &&
                     Card.isSameSuit(card, destPile.getTopCard()) &&
