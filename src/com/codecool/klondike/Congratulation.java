@@ -39,6 +39,7 @@ public class Congratulation {
         game.buttonStyle(closeButton);
         game.buttonStyle(restartButton);
 
+
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -46,15 +47,12 @@ public class Congratulation {
             }
         });
         game.addButtonRestartHandler(restartButton);
-
-        VBox layout = new VBox(30);
-        closeButton.setAlignment(Pos.CENTER);
-        restartButton.setAlignment(Pos.CENTER);
-
-        layout.getChildren().add(label);
-        layout.getChildren().add(restartButton);
-        layout.getChildren().add(closeButton);
-        layout.setAlignment(Pos.CENTER);
+        VBox layout = new VBox(20);
+        HBox buttons = new HBox(40);
+        layout.getChildren().addAll(label,buttons);
+        layout.setAlignment(Pos.TOP_CENTER);
+        buttons.setAlignment(Pos.CENTER);
+        buttons.getChildren().addAll(restartButton,closeButton);
 
         layout.setBackground(new Background(new BackgroundImage(new Image("/table/green.png"),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,

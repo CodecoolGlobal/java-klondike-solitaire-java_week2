@@ -151,7 +151,7 @@ public class Game extends Pane {
             Pile foundationPile = foundationPiles.get(i);
             count += foundationPile.numOfCards();
         }
-        if (count == 52) {
+        if (count == 1) {
             Congratulation.display("Congratulation!!!", "WON", this);
 
         }
