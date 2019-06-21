@@ -265,8 +265,8 @@ public class Game extends Pane {
 
     private void addBackrounds(ArrayList backgrounds) {
         backgrounds.add("/table/greenPattern.jpg");
+        backgrounds.add("/table/green3.jpg");
         backgrounds.add("/table/green.png");
-        backgrounds.add("card_images/clubs1.png");
         backgrounds.add("card_images/diamonds1.png");
         backgrounds.add("card_images/hearts4.png");
     }
