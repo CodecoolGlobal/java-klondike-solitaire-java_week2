@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -159,6 +160,7 @@ public class Game extends Pane {
 
     public Game() {
         deck = Card.createNewDeck();
+        addKeyEventHandler();
         initPiles();
         dealCards();
     }
@@ -260,6 +262,7 @@ public class Game extends Pane {
     private EventHandler<ActionEvent> onButtonPressedHandler = e -> {
         Klondike newGame = new Klondike();
         Congratulation.close();
+        Menu.close();
         newGame.start(Klondike.stage);
     };
 
@@ -271,7 +274,7 @@ public class Game extends Pane {
         backgrounds.add("card_images/hearts4.png");
     }
 
-    public void addSwitchButtonHandler(Button button) {
+    public void addSwitchButtonHandler(Button button,int index) {
         button.setOnAction(onSwitchButtonPressedHandler);
     }
 
@@ -280,28 +283,38 @@ public class Game extends Pane {
         if (switchBackground + 1 == backgrounds.size()) {
             switchBackground = 0;
         }
-
         setTableBackground(new Image(backgrounds.get(switchBackground)));
 
+    };
+    public int getSwitchBackground(){
+        return switchBackground;
+    }
+    public void addKeyEventHandler(){
+        setOnKeyPressed(ke -> {
+            KeyCode keyCode = ke.getCode();
+            if (keyCode.equals(KeyCode.S)) {
+                Congratulation.display("asd","asd",this);
+            }
+            if (keyCode.equals(KeyCode.ESCAPE)){
+                Menu.displayMenu(this);
+            }
+        });
+    }
+    public void addMenuEVentHandler(Button button){
+        button.setOnAction(onMenuButtonPressed);
+    }
+    private EventHandler<ActionEvent> onMenuButtonPressed = e ->{
+        Menu.displayMenu(this);
     };
 
     private void initPiles() {
         addBackrounds(backgrounds);
 
-        Button btn = new Button();
-        btn.setText("Restart");
+        Button btn = new Button("Menu");
         getChildren().add(btn);
         btn.setMinWidth(80);
         buttonStyle(btn);
-        addButtonRestartHandler(btn);
-
-        Button switchbtn = new Button();
-        switchbtn.setText("Switch");
-        switchbtn.setLayoutY(30);
-        switchbtn.setMinWidth(80);
-        getChildren().add(switchbtn);
-        buttonStyle(switchbtn);
-        addSwitchButtonHandler(switchbtn);
+        addMenuEVentHandler(btn);
 
         stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP);
         stockPile.setBlurredBackground();
