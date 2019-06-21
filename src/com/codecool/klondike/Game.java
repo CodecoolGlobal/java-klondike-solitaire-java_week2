@@ -175,11 +175,12 @@ public class Game extends Pane {
     public void refillStockFromDiscard() {
         //TODO DONE
         ObservableList<Card> cards = discardPile.getCards();
-        for (int i = cards.size() - 1; i > -1; i--) {
-            Card card = cards.get(i);
-            card.flip();
-            card.moveToPile(stockPile);
-        }
+        if (stockPile.numOfCards() == 0)
+            for (int i = cards.size() - 1; i > -1; i--) {
+                Card card = cards.get(i);
+                card.flip();
+                card.moveToPile(stockPile);
+            }
         System.out.println("Stock refilled from discard pile.");
     }
 
