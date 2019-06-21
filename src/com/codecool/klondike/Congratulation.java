@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -33,11 +34,13 @@ public class Congratulation {
 
 
         Label label = new Label();
-        label.setText(message);
+        label.setGraphic(new ImageView("/popup_background/Congrats.png"));
         Button closeButton = new Button("Exit");
         Button restartButton = new Button("Restart");
         game.buttonStyle(closeButton);
         game.buttonStyle(restartButton);
+        closeButton.setMinWidth(175);
+        restartButton.setMinWidth(175);
 
 
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -47,11 +50,14 @@ public class Congratulation {
             }
         });
         game.addButtonRestartHandler(restartButton);
-        VBox layout = new VBox(20);
-        HBox buttons = new HBox(40);
+        VBox layout = new VBox(30);
+        HBox buttons = new HBox(80);
+        buttons.setMinHeight(50);
         layout.getChildren().addAll(label,buttons);
         layout.setAlignment(Pos.TOP_CENTER);
         buttons.setAlignment(Pos.CENTER);
+        closeButton.setAlignment(Pos.TOP_CENTER);
+        restartButton.setAlignment(Pos.TOP_CENTER);
         buttons.getChildren().addAll(restartButton,closeButton);
 
         layout.setBackground(new Background(new BackgroundImage(new Image("/table/green.png"),
